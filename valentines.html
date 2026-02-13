@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Letter for Mom & Dad</title>
+    <style>
+        :root {
+            --bg-dim: #1a0f11;
+            --parchment: #fdf5e6;
+            --ink: #2b1e16;
+            --rose-petal: #f8adbc;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle, #3a2024 0%, var(--bg-dim) 100%);
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            color: white;
+        }
+
+        .click-prompt {
+            text-align: center;
+            cursor: pointer;
+            z-index: 20;
+            transition: opacity 0.5s ease;
+        }
+
+        .envelope-icon {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .click-text {
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: var(--rose-petal);
+            opacity: 0.8;
+        }
+
+        .letter-container {
+            display: none;
+            position: relative;
+            width: 85%;
+            max-width: 450px;
+            background: var(--parchment);
+            padding: 45px;
+            color: var(--ink);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 2px;
+            z-index: 10;
+        }
+
+        .letter-container.show {
+            display: block;
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        h1 { font-size: 1.3rem; text-align: center; text-transform: uppercase; letter-spacing: 3px; margin-top: 0; }
+        .message { line-height: 1.6; font-size: 1rem; white-space: pre-line; margin-top: 20px; }
+        .closing-line { margin-top: 25px; font-size: 0.85rem; color: #5a4a42; border-top: 1px dashed rgba(0,0,0,0.1); padding-top: 15px; }
+        .signature { margin-top: 25px; text-align: right; font-weight: bold; color: #800f2f; font-size: 1.1rem; }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        .petal {
+            position: absolute;
+            background-color: var(--rose-petal);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="mySong" loop>
+        <source src="song.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="prompt" class="click-prompt" onclick="openLetter()">
+        <span class="envelope-icon">✉️</span>
+        <div class="click-text">Click me to open a letter</div>
+    </div>
+
+    <div id="letter" class="letter-container">
+        <h1>Happewwww Valentine's Day</h1>
+        <div class="message">
+            Dearest Motherb and Fatherb,
+            
+            I just wanted to greet you a Happy Hearts Day! Thank you for all the love and support you've been showering us with.
+
+            We love you both!
+        </div>
+        <div class="closing-line">
+            I hope I made you smile with this simple digi-present.
+        </div>
+        <div class="signature">with love, <br> anak n maganda (eloisa) </div>
+    </div>
+
+    <script>
+        function openLetter() {
+            // MATCHED ID: Using "mySong" to match the HTML
+            var audio = document.getElementById("mySong");
+            
+            audio.play().then(() => {
+                console.log("Music started!");
+            }).catch(function(error) {
+                console.log("Music failed to play:", error);
+            });
+
+            const prompt = document.getElementById('prompt');
+            prompt.style.opacity = '0';
+            
+            setTimeout(() => {
+                prompt.style.display = 'none';
+                const letter = document.getElementById('letter');
+                letter.classList.add('show');
+            }, 500);
+        }
+
+        // Falling petals logic
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            const size = Math.random() * 10 + 10 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 5 + 5 + 's';
+            document.body.appendChild(petal);
+            setTimeout(() => { petal.remove(); }, 10000);
+        }
+        setInterval(createPetal, 450);
+    </script>
+</body>
+</html>
